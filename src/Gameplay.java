@@ -4,7 +4,7 @@ public class Gameplay {
 	
 	public EndGame endOfTheGame = new EndGame();
     
-    public int PlayerDeck_1; //С‚РёРїС‹ РєРѕСЂР°Р±Р»РµР№ РёРіСЂРѕРєР°
+    public int PlayerDeck_1; //типы кораблей игрока
     
     public int PlayerDeck_2;
     
@@ -12,7 +12,7 @@ public class Gameplay {
     
     public int PlayerDeck_4;
     
-    public int ComputerDeck_1; //С‚РёРїС‹ РєРѕСЂР°Р±Р»РµР№ РєРѕРјРїСЊСЋС‚РµСЂР°
+    public int ComputerDeck_1; //типы кораблей компьютера
     
     public int ComputerDeck_2;
     
@@ -22,17 +22,17 @@ public class Gameplay {
     
     public static int endGame = 1; 
     
-    public int arrPlayer[][]= new int[10][10]; //РїРѕР»Рµ РёРіСЂРѕРєР°
+    public int arrPlayer[][]= new int[10][10]; //поле игрока
     
-    public int arrComputer[][]= new int[10][10]; //РїРѕР»Рµ РєРѕРјРїСЊСЋС‚РµСЂР°
+    public int arrComputer[][]= new int[10][10]; //поле компьютера
     
-    public boolean playerMove = true; //С…РѕРґ РёРіСЂРѕРєР°
+    public boolean playerMove = true; //ход игрока
     
-    public boolean computerMove = false; //С…РѕРґ РєРѕРјРїСЊСЋС‚РµСЂР°
+    public boolean computerMove = false; //ход компьютера
     
     Thread thread = new Thread();
     /**
-     * РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РїРѕР»СЏ РєР»Р°СЃСЃР°
+     * Инициализирует поля класса
      */
     Gameplay() {
     	PlayerDeck_1 = 0;
@@ -43,18 +43,22 @@ public class Gameplay {
     	ComputerDeck_2 = 0;
     	ComputerDeck_3 = 0;
     	ComputerDeck_4 = 0;
-    	arrPlayer = new int[10][10];
-    	arrComputer = new int[10][10];
     }
     /**
-     Р—Р°РїСѓСЃРєР°РµС‚ РёРіСЂРѕРІРѕР№ СЂР°СѓРЅРґ. РРіСЂРѕРє РІСЃРµРіРґР° С…РѕРґРёС‚ РїРµСЂРІС‹Рј.
+     Запускает игровой раунд. Игрок всегда ходит первым.
      */
     public void start() { 
-        endGame = 0;// РёРіСЂР° РёРґРµС‚
+    	for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+            	arrPlayer[i][j] = 0;
+            	arrComputer[i][j] = 0;
+            }
+        }
+    	endGame = 0; 
         setDecksOfComputerShips();
     }   
     /**
-     * РњРµС‚РѕРґ РґР»СЏ СЂР°СЃСЃС‚Р°РЅРѕРІРєРё РІСЃРµС… РєРѕСЂР°Р±Р»РµР№ РґР»СЏ РєРѕРјРїСЊСЋС‚РµСЂР°
+     * Метод для расстановки всех кораблей для компьютера
      */
     private void setDecksOfComputerShips(){
     	generateDecks(arrComputer, 4);
@@ -69,7 +73,7 @@ public class Gameplay {
         }
     }
     /**
-     * Р“РµРЅРµСЂРёСЂСѓРµС‚ Рё СЃР»СѓС‡Р°Р№РЅРѕ СЂР°СЃСЃС‚Р°РІР»СЏРµС‚ РєРѕСЂР°Р±Р»Рё РєРѕРјРїСЊСЋС‚РµСЂР°.
+     * Генерирует и случайно расставляет корабли компьютера.
      */
     private void generateDecks(int[][] arr, int numberOfDecks){
         int i = 0, j = 0;
@@ -80,7 +84,7 @@ public class Gameplay {
             int direction = (int) (Math.random() * 2); 
 
             if (testDecks(arr, i, j) == true) {
-                if (direction == 0) { //РІРІРµСЂС…
+                if (direction == 0) { //вверх
                     if (testDecks(arr, i -(numberOfDecks - 1), j) == true)  
                         flag = true;
                 }
@@ -114,7 +118,7 @@ public class Gameplay {
         replace(arr); 
     }
     /**
-     * РџСЂРѕРІРµСЂСЏРµС‚ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СѓСЃС‚Р°РЅРѕРІРєРё РїР°Р»СѓР±С‹ РёРіСЂРѕРєРѕРј РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰СѓСЋ СЏС‡РµР№РєСѓ.
+     * Проверяет возможность установки палубы игроком в соответствующую ячейку.
      */
     public boolean setDeck(int i, int j, int numberDecks, boolean dir){
         boolean flag = false;
@@ -149,7 +153,7 @@ public class Gameplay {
     }
     
    /**
-    РџРµСЂРµР±РёСЂР°РµС‚ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР°, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЏС‡РµР№РєР°Рј РїРѕР»СЏ РІРѕРєСЂСѓРі РєРѕСЂР°Р±Р»СЏ.
+    Перебирает все элементы массива, соответствующие ячейкам поля вокруг корабля.
     */
     private void search(int[][] arr, int i, int j, int val) {
  	   setEnv(arr, i - 1, j - 1, val);
@@ -163,18 +167,18 @@ public class Gameplay {
     }
 
     /**
-     * РџРµСЂРµСЃС‡РёС‚С‹РІР°РµС‚ СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° РїРѕСЃР»Рµ РЅР°Р¶Р°С‚РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰СѓСЋ СЏС‡РµР№РєСѓ РїРѕР»СЏ.
+     * Пересчитывает элемент массива после нажатия пользователем на соответствующую ячейку поля.
      */
     public void attackByPlayer(int arr[][], int i, int j) {
         
     	arr[i][j] += 7;
         testKilled(arr, i, j);
-        endOfTheGame.testEndGame(endGame, arrPlayer, arrComputer);
+        endGame = endOfTheGame.testEndGame(endGame, arrPlayer, arrComputer);
         attackByComputer(i, j);
     }
     
     /**
-     * РџСЂРѕРІРµСЂСЏРµС‚, СѓРЅРёС‡С‚РѕР¶РµРЅР° Р»Рё РїР°Р»СѓР±Р°.
+     * Проверяет, уничтожена ли палуба.
      */
     private void testKilled(int arr[][], int i, int j){
         if (arr[i][j] == 8) { 
@@ -193,7 +197,7 @@ public class Gameplay {
     }
     
     /**
-     * РџСЂРѕРІРµСЂСЏРµС‚, СѓР±РёС‚ Р»Рё РєРѕСЂР°Р±Р»СЊ.
+     * Проверяет, убит ли корабль.
      */
     private void checkKilled(int[][] arr, int i, int j, int numberOfDecks) {
         int numberOfInjuredDecks = 0;
@@ -218,7 +222,7 @@ public class Gameplay {
     }
     
     /**
-     * РЎРёРјСѓР»РёСЂСѓРµС‚ С…РѕРґ РєРѕРјРїСЋС‚РµСЂР°.
+     * Симулирует ход компютера.
      */
     public void attackByComputer(int i, int j) {
     	thread = new Thread(new Runnable() {
@@ -244,7 +248,7 @@ public class Gameplay {
     }
 
     /**
-     * РЈРјРµРЅСЊС€Р°РµС‚ РЅР° 1 Р·РЅР°С‡РµРЅРёРµ РјР°СЃСЃРёРІР°
+     * Уменьшает на 1 значение массива
      */
     public void subArray(int arr[][], int i, int j){
         if (testArrayOut(i, j)){
@@ -254,7 +258,7 @@ public class Gameplay {
         }
     }
     /**
-     * РњРµРЅСЏРµС‚ Р·РЅР°С‡РµРЅРёСЏ С‚РµС… СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР°, РєРѕС‚РѕСЂС‹Рµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‚ СЏС‡РµР№РєР°Рј РїРѕР»СЏ, СЂР°СЃРїРѕР»РѕР¶РµРЅРЅС‹С… РїРѕ РїРµСЂРёРјС‚СЂСѓ СѓР±РёС‚РѕРіРѕ РєРѕСЂР°Р±Р»СЏ.
+     * Меняет значения тех элементов массива, которые соответствуют ячейкам поля, расположенных по перимтру убитого корабля.
      */
     private void setEnvKilled(int[][] arr, int i, int j) {
     	subArray(arr, i - 1, j - 1); 
@@ -267,7 +271,7 @@ public class Gameplay {
     	subArray(arr, i, j - 1); 
     }
     /**
-     * РЎРёРјСѓР»РёСЂСѓРµС‚ РІС‹СЃС‚СЂРµР» РєРѕРјРїСЊСЋС‚РµСЂР°.
+     * Симулирует выстрел компьютера.
      */
     boolean computersTurn(int arr[][]) {
         if (computerMove) {
@@ -378,13 +382,13 @@ public class Gameplay {
                 }
             }
             
-            endOfTheGame.testEndGame(endGame, arrPlayer, arrComputer);
+            endGame = endOfTheGame.testEndGame(endGame, arrPlayer, arrComputer);
             
             return hit;
         }else return false;
     }
     /**
-     * РџСЂРѕРІРµСЂСЏРµС‚, Р±С‹Р» Р»Рё РІС‹С…РѕРґ Р·Р° РїСЂРµРґРµР»С‹ РјР°СЃСЃРёРІР°.
+     * Проверяет, был ли выход за пределы массива.
      */
     private boolean testArrayOut(int i, int j) {
         if (((i >= 0) && (i <= 9)) && ((j >= 0) && (j <= 9))) {
@@ -396,7 +400,7 @@ public class Gameplay {
     }
 
     /**
-     РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕРєСЂСѓР¶РµРЅРёРµ РєРѕСЂР°Р±Р»СЏ.
+     Устанавливает окружение корабля.
      */
     private void setEnv(int[][] arr, int i, int j, int val) {
         if (testArrayOut(i, j) && arr[i][j] == 0) {
@@ -405,7 +409,7 @@ public class Gameplay {
     }
     
     /**
-     РџСЂРѕРІРµСЂСЏРµС‚ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЂР°Р·РјРµСЃС‚РёС‚СЊ РїР°Р»СѓР±Сѓ РІ СЏС‡РµР№РєРµ.
+     Проверяет возможность разместить палубу в ячейке.
      */
     private boolean testDecks(int [][]mas, int i, int j){
         if (testArrayOut(i, j) == false) {
@@ -418,7 +422,7 @@ public class Gameplay {
     }
 
     /**
-     Р—Р°РјРµРЅСЏРµС‚ Р·РЅР°С‡РµРЅРёСЏ РјР°СЃСЃРёРІР°.
+     Заменяет значения массива.
      */
     private void replace(int[][] mas) {
         for (int i = 0; i < 10; i++) {

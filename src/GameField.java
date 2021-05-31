@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.IOException;
 
 public class GameField extends JPanel {
@@ -25,7 +26,6 @@ public class GameField extends JPanel {
     private int p4;
     public boolean verticalAlignment = true; 
     private JButton checkDir;
-    public static boolean placment;
     private String number[] = {
     		"А", 
     		"Б", 
@@ -43,7 +43,6 @@ public class GameField extends JPanel {
         game = new Gameplay();
         setSize(680,520);
         addMouseListener(new Mouse());
-        addMouseMotionListener(new Mouse());
         checkDir = new JButton("Повернуть");
         checkDir.setBackground(new Color(248, 248, 255));
         checkDir.setBounds(235, 430, 161, 23);
@@ -87,6 +86,7 @@ public class GameField extends JPanel {
         g.drawImage(image, 0, 0, this); 
         Graphics2D g2 = (Graphics2D) g;
         g.setFont(new Font("Times New Roman", 0, 18));
+        g2.setColor(new Color(330099));
         g2.setStroke(new BasicStroke(2));
         
         if (verticalAlignment) {
@@ -244,7 +244,7 @@ public class GameField extends JPanel {
         p4 = 1;
     }
 
-    public class Mouse implements MouseListener, MouseMotionListener {
+    public class Mouse implements MouseListener{
         
 
         public void mousePressed(MouseEvent e) {
@@ -264,33 +264,66 @@ public class GameField extends JPanel {
                     }
                 }
             }
-                 
+            Graphics g = getGraphics();    
+            g.setColor(new Color(330099));
+    		((Graphics2D) g).setStroke(new BasicStroke(4));
             if (line4.contains(e.getPoint())){
                 isSelectP4 =true;
-                Graphics g = getGraphics();
-                g.setColor(new Color(0, 0, 0));
-                line4 = new Rectangle2D.Double(240, 330, 23, 92);
                 isSelectP3 =false;
                 isSelectP2 =false;
                 isSelectP1 =false;
+                
+                if (verticalAlignment) {
+                	g.drawRect(190, 360, 92, 23); 
+                }
+                
+                else {
+                	g.drawRect(240, 330, 23, 92); 
+            	     		
+            	}  
             }
+           
             if (line3.contains(e.getPoint())){
                 isSelectP4 =false;
                 isSelectP3 =true;
                 isSelectP2 =false;
                 isSelectP1 =false;
+                if (verticalAlignment) {
+            		g.drawRect(300, 360, 69, 23); 
+                }
+                
+                else {
+            		g.drawRect(280, 330, 23, 69); 
+            	     		
+            	}  
             }
             if (line2.contains(e.getPoint())){
                 isSelectP4 =false;
                 isSelectP3 =false;
                 isSelectP2 =true;
                 isSelectP1 =false;
+                if (verticalAlignment) {
+            		g.drawRect(385, 360, 46, 23); 
+                }
+                
+                else {
+            		g.drawRect(320, 330, 23, 46); 
+            	     		
+            	}  
             }
             if (line1.contains(e.getPoint())){
                 isSelectP4 =false;
                 isSelectP3 =false;
                 isSelectP2 =false;
                 isSelectP1 =true;
+                if (verticalAlignment) {
+            		g.drawRect(448, 360, 23, 23); 
+                }
+                
+                else {
+            		g.drawRect(360, 330, 23, 23); 
+            	     		
+            	}  
             }
         
         }
@@ -333,19 +366,13 @@ public class GameField extends JPanel {
 
         }
         
-        public void mouseDragged(MouseEvent e) {
-            
-        }
+        
         public void mouseEntered(MouseEvent e) {
 
         }
       
         public void mouseExited(MouseEvent e) {
         }
-
-        public void mouseMoved(MouseEvent e) {
-
-
-        }
+    
     }
 }

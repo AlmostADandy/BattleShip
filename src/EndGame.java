@@ -6,7 +6,7 @@ public class EndGame {
 		
 	}
 	
-	public void testEndGame(int endGame, int[][] arrPlayer, int[][] arrComputer) {
+	public int testEndGame(int endGame, int[][] arrPlayer, int[][] arrComputer) {
 		if (endGame == 0){
 	        int sumKilled = 330; 
 	        int sumKilledOfPlayer = 0; 
@@ -19,16 +19,19 @@ public class EndGame {
 	                }
 	            }
 	            if (sumKilledOfPlayer == sumKilled) {
+	            	endGame = 2;
 	                JOptionPane.showMessageDialog(null,"Вы проиграли!",
-	                        "Вы проиграли", JOptionPane.INFORMATION_MESSAGE);   
+	                        "Вы проиграли", JOptionPane.INFORMATION_MESSAGE);  
 	                
 
 	            } else if (sumKilledOfComputer == sumKilled) {
+	            	endGame = 1;
 	                JOptionPane.showMessageDialog(null,
 	                		"Вы выиграли!",
 	                        "Вы выиграли", JOptionPane.INFORMATION_MESSAGE);
 	            }
 	            }
 	        }
+		return endGame;
 	}
 }
