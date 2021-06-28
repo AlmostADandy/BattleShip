@@ -37,6 +37,7 @@ public class GameField extends JPanel {
     		"З", 
     		"И", 
     		"К"};
+    public static boolean AutoPlacement;
 
     public GameField() {    
         setFocusable(true);
@@ -199,6 +200,54 @@ public class GameField extends JPanel {
                 }
             }
         }
+        
+        
+        
+        if (p1 + p2 + p3 + p4 == 0) {  	
+        	g.drawRect(60 + 23 * 5, 60 + 14 * 23 + 30, 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (4 - Gameplay.ComputerDeck_1)), 50 + 23 * 5 + 2 * 23, 60 + 15 * 23 + 30);
+            for (int i = 0; i < 1; i++) {
+            	g.drawImage(minideck, 60 + 23 * 5 + 23 * i, 60 + 14 * 23 + 30, this);
+            }
+            g.drawRect(60 + 23 * 4, 60 + 13 * 23 + 20, 2 * 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (3 - Gameplay.ComputerDeck_2)), 50 + 23 * 4 + 3 * 23, 60 + 14 * 23 + 20);
+            for (int i = 0; i < 2; i++) {
+            	g.drawImage(minideck, 60 + 23 * 4 + 23 * i, 60 + 13 * 23 + 20, this);
+            }
+            g.drawRect(60 + 23 * 3, 60 + 12 * 23 + 10, 3 * 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (2 - Gameplay.ComputerDeck_3)), 50 + 23 * 3 + 4 * 23, 60 + 13 * 23 + 10);
+            for (int i = 0; i < 3; i++) {
+            	g.drawImage(minideck, 60 + 23 * 3 + 23 * i, 60 + 12 * 23 + 10, this);
+            }
+            g.drawRect(60 + 23 * 2, 60 + 11 * 23, 4 * 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (1 - Gameplay.ComputerDeck_4)), 50 + 23 * 2 + 5 * 23, 60 + 12 * 23 - (23 / 4));
+            for (int i = 0; i < 4; i++) {
+            	g.drawImage(minideck, 60 + 23 * 2 + 23 * i, 60 + 11 * 23, this);
+            }
+
+                    
+            g.drawRect(60 + 23 * 5 + 13 * 23, 60 + 14 * 23 + 30, 1 * 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (4 - Gameplay.PlayerDeck_1)), 50 + 23 * 5 + 15 * 23, 60 + 15 * 23+30);
+            for (int i = 0; i < 1; i++) {
+            	g.drawImage(minideck, 60 + 23 * 5 + 13 * 23 + 23 * i, 60 + 14 * 23 + 30, this);
+            }   
+            g.drawRect(60 + 23 * 4 + 13 * 23, 60 + 13 * 23 + 20, 2 * 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (3 - Gameplay.PlayerDeck_2)), 50 + 23 * 4 + 16 * 23, 60 + 14 * 23+20);
+            for (int i = 0; i < 2; i++) {
+            	g.drawImage(minideck, 60 + 23 * 4 + 13 * 23 + 23 * i, 60 + 13 * 23 + 20, this);
+            }
+            g.drawRect(60 + 23 * 3 + 13 * 23, 60 + 12 * 23 + 10, 3 * 23, 23); 
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (2 - Gameplay.PlayerDeck_3)), 50 + 23 * 3 + 17 * 23, 60 + 13 * 23+10);
+            for (int i = 0; i < 3; i++) {
+            	g.drawImage(minideck, 60 + 23 * 3 + 13 * 23 + 23 * i, 60 + 12 * 23 + 10, this);
+            }
+            g.drawRect(60 + 23 * 2 + 13 * 23, 60 + 11 * 23, 4 * 23, 23);
+            ((Graphics2D) g).drawString(String.valueOf("—  " + (1 - Gameplay.PlayerDeck_4)), 50 + 23 * 2 + 18 * 23, 60 + 12 * 23-(23/4));
+            for (int i = 0; i < 4; i++) {
+            	g.drawImage(minideck, 60 + 23 * 2 + 13 * 23 + 23 * i, 60 + 11 * 23, this);
+            }
+        }
+            
 
 
         for (int i = 60; i <= 290; i += 23) {
@@ -233,6 +282,12 @@ public class GameField extends JPanel {
         
     }
     
+    
+    public void callAutoPlacement(){
+    	AutoPlacement = true;
+    	timer.start();
+        game.start();
+    }
     
     
     public void callPlacement(){
