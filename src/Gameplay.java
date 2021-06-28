@@ -4,21 +4,21 @@ public class Gameplay {
 	
 	public EndGame endOfTheGame = new EndGame();
     
-    public int PlayerDeck_1; //типы кораблей игрока
+    public static int PlayerDeck_1; //типы кораблей игрока
     
-    public int PlayerDeck_2;
+    public static int PlayerDeck_2;
     
-    public int PlayerDeck_3;
+    public static int PlayerDeck_3;
     
-    public int PlayerDeck_4;
+    public static int PlayerDeck_4;
     
-    public int ComputerDeck_1; //типы кораблей компьютера
+    public static int ComputerDeck_1; //типы кораблей компьютера
     
-    public int ComputerDeck_2;
+    public static int ComputerDeck_2;
     
-    public int ComputerDeck_3;
+    public static int ComputerDeck_3;
     
-    public int ComputerDeck_4;
+    public static int ComputerDeck_4;
     
     public static int endGame = 1; 
     
@@ -55,6 +55,11 @@ public class Gameplay {
             }
         }
     	endGame = 0; 
+    	killedByComputer(arrComputer);
+    	killedByPlayer(arrPlayer);
+    	if (GameField.AutoPlacement) {
+    		setDecksOfPlayerShips();
+    	}
         setDecksOfComputerShips();
     }   
     /**
@@ -72,6 +77,8 @@ public class Gameplay {
         	generateDecks(arrComputer,1);
         }
     }
+        
+    
     /**
      * Генерирует и случайно расставляет корабли компьютера.
      */
@@ -433,4 +440,122 @@ public class Gameplay {
             }
         }
     }  
+    /**
+     * Метод для автоматической расстановки всех кораблей игрока
+     */
+    private void setDecksOfPlayerShips(){
+    	int numberOfDecks = 0;
+    	for (int l = 0; l < 10; l++) {
+    		if (l == 0) {
+    			numberOfDecks = 4;
+    		}
+    		else if ((l >= 1) && (l <= 2)) {
+    			numberOfDecks = 3;
+    		}
+    		else if ((l >= 3) && (l <= 5)) {
+    			numberOfDecks = 2;
+    		}
+    		else if ((l >= 5) && (l <= 9)) {
+    			numberOfDecks = 1;
+    		}
+    		int i = 0, j = 0;
+            while (true) {
+                boolean flag = false;
+                i = (int) (Math.random() * 10);
+                j = (int) (Math.random() * 10);
+                int direction = (int) (Math.random() * 2); 
+
+                if (testDecks(arrPlayer, i, j) == true) {
+                    if (direction == 0) {
+                        if (testDecks(arrPlayer, i -(numberOfDecks - 1), j) == true)  
+                            flag = true;
+                    }
+                    else if (direction == 1){ 
+                        if (testDecks(arrPlayer, i, j + (numberOfDecks - 1)) == true)
+                            flag = true;
+                    }
+                    
+                }
+                if (flag == true) {
+                  
+                	arrPlayer[i][j] = numberOfDecks;
+                  
+                	search(arrPlayer, i, j, -2);
+                    if (direction == 0) {
+                        for (int k = numberOfDecks - 1; k >= 1; k--) {
+                        	arrPlayer[i -k][j] = numberOfDecks;
+                        	search(arrPlayer, i - k, j, -2);
+                        }
+                    }
+                    else if (direction == 1){ 
+                        for (int k = numberOfDecks - 1; k >= 1; k--) {
+                        	arrPlayer[i][j + k] = numberOfDecks;
+                        	search(arrPlayer, i, j + k, -2);
+                        }
+                    }
+                    
+                    break;
+                }
+            }
+            replace(arrPlayer); 
+    	}
+    	
+    }
+    /**
+    Выполняет подсчет кораблей, уничтоженных компьютером.
+    */
+    public static void killedByComputer(int[][]arr){
+        PlayerDeck_1 = 0;
+        PlayerDeck_2 = 0;
+        PlayerDeck_3 = 0;
+        PlayerDeck_4 = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (arr[i][j] == 15) {
+                	PlayerDeck_1 = (PlayerDeck_1 + 1);
+                } 
+                if (arr[i][j] == 16) {
+                	PlayerDeck_2 = (PlayerDeck_2 + 1);
+                } 
+                if (arr[i][j] == 17) {
+                	PlayerDeck_3 = (PlayerDeck_3 + 1);
+                } 
+                if (arr[i][j] == 18) {
+                	PlayerDeck_4 = (PlayerDeck_4 + 1);
+                } 
+            }
+        }
+        PlayerDeck_2 /= 2;
+        PlayerDeck_3 /= 3;
+        PlayerDeck_4 /= 4;
+    }
+    /**
+     Выполняет подсчет кораблей, уничтоженных игроком.
+     */
+    public static void killedByPlayer(int[][]arr) {
+        ComputerDeck_1 = 0;
+        ComputerDeck_2 = 0;
+        ComputerDeck_3 = 0;
+        ComputerDeck_4 = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (arr[i][j] == 15) {
+                	ComputerDeck_1 = (ComputerDeck_1 + 1);
+                } 
+                if (arr[i][j] == 16) {
+                	ComputerDeck_2 = (ComputerDeck_2 + 1);
+                } 
+                if (arr[i][j] == 17) {
+                	ComputerDeck_3 = (ComputerDeck_3 + 1);
+                } 
+                if (arr[i][j] == 18) {
+                	ComputerDeck_4 = (ComputerDeck_4 + 1);
+                } 
+            }
+        }
+        ComputerDeck_2 /= 2;
+        ComputerDeck_3 /= 3;
+        ComputerDeck_4 /= 4;
+    }
+    
 }

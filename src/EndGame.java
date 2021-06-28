@@ -11,6 +11,8 @@ public class EndGame {
 	        int sumKilled = 330; 
 	        int sumKilledOfPlayer = 0; 
 	        int sumKilledOfComputer = 0; 
+	        Gameplay.killedByComputer(arrComputer);
+	        Gameplay.killedByPlayer(arrPlayer);
 	            if (endGame == 0) {
 	                for (int i = 0; i < 10; i++) {
 	                    for (int j = 0; j < 10; j++) {
