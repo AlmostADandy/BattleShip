@@ -8,7 +8,9 @@ public class GameWindow extends JFrame {
 	private JMenuBar menuBar;
     private JMenu menuGame;
     private JMenuItem menuHelp;
-    private JMenuItem menuStartGame;
+    private JMenu menuNewGame;
+    private JMenuItem menuStartDefaultPlacement;
+    private JMenuItem menuStartAutoPlacement;
     private JMenuItem menuItemExit;
     
     GameWindow() {
@@ -19,11 +21,21 @@ public class GameWindow extends JFrame {
         menuHelp = new JMenuItem("Правила");
         
         
-        menuStartGame = new JMenuItem("Новая игра");
+        menuNewGame = new JMenu("Новая игра");
         
-        menuStartGame.addActionListener(new ActionListener() {       
+        menuStartDefaultPlacement = new JMenuItem("Расставить корабли");
+        
+        menuStartAutoPlacement = new JMenuItem("Автоматическая расстановка");
+        
+        menuStartDefaultPlacement.addActionListener(new ActionListener() {       
             public void actionPerformed(ActionEvent e) {
             	field.callPlacement();
+            }
+        });
+        
+        menuStartAutoPlacement.addActionListener(new ActionListener() {       
+            public void actionPerformed(ActionEvent e) {
+            	field.callAutoPlacement();
             }
         });
         
@@ -54,7 +66,9 @@ public class GameWindow extends JFrame {
         
         menuBar.add(menuGame);
         menuBar.add(menuHelp);
-        menuGame.add(menuStartGame);
+        menuGame.add(menuNewGame);
+        menuNewGame.add(menuStartDefaultPlacement);
+        menuNewGame.add(menuStartAutoPlacement);
         menuGame.add(menuItemExit); 
         setJMenuBar(menuBar);
         
